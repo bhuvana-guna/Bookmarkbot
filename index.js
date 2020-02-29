@@ -31,6 +31,7 @@ app.post('/', function(req, res) {
             reply.timestamp = new Date(query.timestamp);
             //reply.user_id = query.user_id;
             //reply.user_name = "bookbot";
+            console.log("calling webpage");
             request(query.text, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                   const $ = cheerio.load(body);
@@ -40,6 +41,7 @@ app.post('/', function(req, res) {
                     title: webpageTitle,
                     metaDescription: metaDescription
                   }
+                  console.log(webpage);
 
                     var url = 'https://api.twinword.com/api/v5/topic/generate/';
                     var headers = { 
@@ -56,7 +58,7 @@ app.post('/', function(req, res) {
                         res.json(reply);
                     });
                   
-                  console.log(webpage);
+                  
                 }
               });
         } else {
