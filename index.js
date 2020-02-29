@@ -31,7 +31,7 @@ app.post('/', function(req, res) {
             reply.timestamp = new Date(query.timestamp);
             //reply.user_id = query.user_id;
             //reply.user_name = "bookbot";
-            console.log("calling webpage");
+            console.log("calling webpage : " + query.text);
             request(query.text, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                   const $ = cheerio.load(body);
