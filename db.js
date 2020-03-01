@@ -26,7 +26,7 @@ module.exports = {
 
                 console.log(titleKeywords, keywords);
 
-                let kw= Object.keys(keywords), kwlinks=[], linkId = res.rows[0].linkId;
+                let kw= Object.keys(keywords), kwlinks=[], linkId = res.rows[0].id;
                 for(let i=0; i< titleKeywords.length; i++){
                     kwlinks.push([linkId, titleKeywords[i]]);
                 }
@@ -35,6 +35,7 @@ module.exports = {
                 }
 
                 console.log(kwlinks)
+                console.log(CONSTANTS.CREATE_KEYWORD_LINK + kwlinks + " RETURNING *")
                 pool.query(CONSTANTS.CREATE_KEYWORD_LINK + kwlinks + " RETURNING *", (err, res) => {
                     if (err) {
                         console.log(err.stack)
