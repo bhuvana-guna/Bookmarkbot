@@ -67,6 +67,7 @@ app.post('/', function(req, res) {
                             // your callback body
                             //console.log(e);
                             console.log(body)
+                            body = JSON.parse(body)
                             console.log( body.keyword)
                             console.log("calling db")
                             console.log(query.text, query.channel_id, query.user_id);
