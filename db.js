@@ -1,5 +1,5 @@
 const { Pool, Client } = require('pg')
-import { v1 as uuidv1 } from 'uuid';
+const { v1: uuidv1 } = require('uuid');
 const connectionString = process.env.DATABASE_URL;
 const pool = new Pool({
   connectionString: connectionString,
