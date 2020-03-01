@@ -28,12 +28,13 @@ module.exports = {
 
                 let kw= Object.keys(keywords), kwlinks="", linkId = res.rows[0].id;
                 for(let i=0; i< titleKeywords.length; i++){
-                    kwlinks = kwlinks + "('"+ linkId +"','"+ titleKeywords[i] + "')";
+                    kwlinks = kwlinks + "('"+ linkId +"','"+ titleKeywords[i] + "'),";
                 }
                 for(let i=0; i< kw.length; i++){
-                    kwlinks = kwlinks + "('"+ linkId +"','"+ kw[i] + "')";
+                    kwlinks = kwlinks + "('"+ linkId +"','"+ kw[i] + "'),";
                 }
 
+                kwlinks = kwlinks.slice(0, -1);
                 console.log(kwlinks)
                 console.log(CONSTANTS.CREATE_KEYWORD_LINK + kwlinks + " RETURNING *")
                 pool.query(CONSTANTS.CREATE_KEYWORD_LINK + kwlinks + " RETURNING *", (err, res) => {
