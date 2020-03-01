@@ -49,12 +49,13 @@ app.post('/', function(req, res) {
 
                     let titleKeywords = webpageTitle.replace(/[^a-zA-Z0-9 ]/g, " ").split(" ");
                     titleKeywords = titleKeywords.filter(e => e.trim().length > 0);
+                    titleKeywords = titleKeywords.map(e => e.toLowerCase())
                     titleKeywords = util.removeStopWords(titleKeywords);
 
                     if(!metaDescription) {
                         console.log("calling db without meta")
                         console.log(query.text, query.channel_id, query.user_id);
-                        db.addLink(query.text, query.channel_id, query.user_id,titleKeywords, {});
+                        db.addLink(query.text, query.channel_id, query.user_id,titleKeywords);
                     } else {
                         var url = 'https://api.twinword.com/api/v5/topic/generate/';
                         var headers = { 
@@ -69,11 +70,14 @@ app.post('/', function(req, res) {
                             console.log(body)
                             body = JSON.parse(body)
                             console.log( body.keyword)
+                            let keywords =  Object.keys(body.keyword);
+                            keywords = keywords.filter( el => !titleKeywords.includes( el ) );
+                            keywords = keywords.concat(titleKeywords)
                             console.log("calling db")
                             console.log(query.text, query.channel_id, query.user_id);
-                            db.addLink(query.text, query.channel_id, query.user_id,titleKeywords, body.keyword);
-    
-                            reply.text = "Your link " + query.text + " has been bookmarked "+ query.user_name;
+                            db.addLink(query.text, query.channel_id, query.user_id,keywords);
+                            
+                            reply.text = "Your link " + query.text + " has been bookmarked "+ query.user_name+". You can search using these keywords - "+ keywords.reduce((str, e) => str+" #"+e, str="");
                             res.json(reply);
                         });
                     }

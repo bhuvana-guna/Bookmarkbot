@@ -17,21 +17,18 @@ module.exports = {
         })
     },
 
-    addLink : function(url, channel, user, titleKeywords, keywords) {
+    addLink : function(url, channel, user, keywords) {
         pool.query(CONSTANTS.CREATE_LINK, [uuidv1(), url, channel, user], (err, res) => {
             if (err) {
                 console.log(err.stack)
               } else {
                 console.log(res.rows[0])
 
-                console.log(titleKeywords, keywords);
+                console.log(keywords);
 
-                let kw= Object.keys(keywords), kwlinks="", linkId = res.rows[0].id;
-                for(let i=0; i< titleKeywords.length; i++){
-                    kwlinks = kwlinks + "('"+ linkId +"','"+ titleKeywords[i] + "'),";
-                }
-                for(let i=0; i< kw.length; i++){
-                    kwlinks = kwlinks + "('"+ linkId +"','"+ kw[i] + "'),";
+                let kwlinks="", linkId = res.rows[0].id;
+                for(let i=0; i< keywords.length; i++){
+                    kwlinks = kwlinks + "('"+ linkId +"','"+ keywords[i] + "'),";
                 }
 
                 kwlinks = kwlinks.slice(0, -1);
