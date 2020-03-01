@@ -28,7 +28,7 @@ module.exports = {
 
                 let kw= Object.keys(keywords), kwlinks=[], linkId = res.rows[0].linkId;
                 for(let i=0; i< titleKeywords.length; i++){
-                    kwlinks.add([linkId, titleKeywords[i]]);
+                    kwlinks.push([linkId, titleKeywords[i]]);
                 }
                 for(let i=0; i< kw.length; i++){
                     kwlinks.push([linkId, kw[i]]);
