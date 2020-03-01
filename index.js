@@ -37,17 +37,16 @@ app.post('/', function(req, res) {
             console.log("calling webpage : " + query.text);
             request(query.text, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
-                  const $ = cheerio.load(body);
-                  const webpageTitle = $("title").text();
-                  const metaDescription =  $('meta[name=description]').attr("content");
-                  const webpage = {
-                    title: webpageTitle,
-                    metaDescription: metaDescription
-                  }
-                  console.log(webpage);
-                  console.log("calling db")
-                  console.log(query.text, query.channel_id, query.user_id);
-                  db.addLink(query.text, query.channel_id, query.user_id);
+                    const $ = cheerio.load(body);
+                    const webpageTitle = $("title").text();
+                    const metaDescription =  $('meta[name=description]').attr("content");
+                    const webpage = {
+                        title: webpageTitle,
+                        metaDescription: metaDescription
+                    }
+                    console.log(webpage);
+
+                    let titleKeywords = webpage.split(" ");
 
                     var url = 'https://api.twinword.com/api/v5/topic/generate/';
                     var headers = { 
@@ -58,8 +57,12 @@ app.post('/', function(req, res) {
 
                     request.post({ url: url, form: form, headers: headers }, function (e, r, body) {
                         // your callback body
-                        console.log(e);
+                        //console.log(e);
                         console.log(body)
+                        console.log("calling db")
+                        console.log(query.text, query.channel_id, query.user_id);
+                        db.addLink(query.text, query.channel_id, query.user_id,titleKeywords, body.keyword);
+
                         reply.text = "Your link " + query.text + " has been bookmarked "+ query.user_name;
                         res.json(reply);
                     });
