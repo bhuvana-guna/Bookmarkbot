@@ -31,7 +31,7 @@ module.exports = {
                     kwlinks.add([linkId, titleKeywords[i]]);
                 }
                 for(let i=0; i< kw.length; i++){
-                    kwlinks.add([linkId, kw[i]]);
+                    kwlinks.push([linkId, kw[i]]);
                 }
 
                 console.log(kwlinks)
