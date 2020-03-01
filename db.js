@@ -1,11 +1,12 @@
 const { Pool, Client } = require('pg')
+import { v1 as uuidv1 } from 'uuid';
 const connectionString = process.env.DATABASE_URL;
 const pool = new Pool({
   connectionString: connectionString,
 })
 
 const CONSTANTS = {
-    CREATE_LINK : "INSERT INTO links(url, channel, userid) VALUES($1, $2, $3) RETURNING *",
+    CREATE_LINK : "INSERT INTO links(id, url, channel, userid) VALUES($1, $2, $3, $4) RETURNING *",
     CREATE_KEYWORD_LINK: "INSERT INTO keyword_link(linkId, keyword) VALUES"
 
 }
@@ -17,7 +18,7 @@ module.exports = {
     },
 
     addLink : function(url, channel, user, titleKeywords, keywords) {
-        pool.query(CONSTANTS.CREATE_LINK, [url, channel, user], (err, res) => {
+        pool.query(CONSTANTS.CREATE_LINK, [uuidv1(), url, channel, user], (err, res) => {
             if (err) {
                 console.log(err.stack)
               } else {
