@@ -4,7 +4,8 @@ var app = express();
 var bodyParser = require('body-parser');
 var cheerio = require('cheerio');
 var request = require('request');
-const db = require("./db")
+const db = require("./db");
+const util = require("./util");
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -46,7 +47,9 @@ app.post('/', function(req, res) {
                     }
                     console.log(webpage);
 
-                    let titleKeywords = webpageTitle.split(" ");
+                    let titleKeywords = webpageTitle.replace(/[^a-zA-Z0-9 ]/g, " ").split(" ");
+                    titleKeywords = titleKeywords.filter(e => e.trim().length > 0);
+                    titleKeywords = util.removeStopWords(titleKeywords);
 
                     if(!metaDescription) {
                         console.log("calling db without meta")
@@ -64,6 +67,7 @@ app.post('/', function(req, res) {
                             // your callback body
                             //console.log(e);
                             console.log(body)
+                            console.log( body.keyword)
                             console.log("calling db")
                             console.log(query.text, query.channel_id, query.user_id);
                             db.addLink(query.text, query.channel_id, query.user_id,titleKeywords, body.keyword);
