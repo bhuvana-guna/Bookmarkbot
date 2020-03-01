@@ -26,12 +26,12 @@ module.exports = {
 
                 console.log(titleKeywords, keywords);
 
-                let kw= Object.keys(keywords), kwlinks=[], linkId = res.rows[0].id;
+                let kw= Object.keys(keywords), kwlinks="", linkId = res.rows[0].id;
                 for(let i=0; i< titleKeywords.length; i++){
-                    kwlinks.push([linkId, titleKeywords[i]]);
+                    kwlinks = kwlinks + "('"+ linkId +"','"+ titleKeywords[i] + "')";
                 }
                 for(let i=0; i< kw.length; i++){
-                    kwlinks.push([linkId, kw[i]]);
+                    kwlinks = kwlinks + "('"+ linkId +"','"+ kw[i] + "')";
                 }
 
                 console.log(kwlinks)
