@@ -5,7 +5,7 @@ const pool = new Pool({
 })
 
 const CONSTANTS = {
-    CREATE_LINK : "INSERT INTO links(url, channel, user) VALUES($1, $2) RETURNING *"
+    CREATE_LINK : "INSERT INTO links(url, channel, userId) VALUES($1, $2) RETURNING *"
 }
 module.exports = {
     query : function(){
