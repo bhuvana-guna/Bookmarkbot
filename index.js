@@ -47,6 +47,7 @@ app.post('/', function(req, res) {
                   console.log(webpage);
                   console.log("calling db")
                   db.query();
+                  db.addLink(query.text, query.channel_id, query.user_id);
 
                     var url = 'https://api.twinword.com/api/v5/topic/generate/';
                     var headers = { 
