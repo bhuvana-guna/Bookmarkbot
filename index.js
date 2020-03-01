@@ -1,8 +1,10 @@
 var express = require('express');
+var timeout = require('connect-timeout')
 var app = express();
 var bodyParser = require('body-parser');
 var cheerio = require('cheerio');
 var request = require('request');
+const db = require("./db")
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -11,6 +13,7 @@ const constants = {
     BOOKMARK: "/bookmark"
 }
 
+app.use(timeout('30s'))
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/', function(req, res) {
@@ -42,6 +45,8 @@ app.post('/', function(req, res) {
                     metaDescription: metaDescription
                   }
                   console.log(webpage);
+                  console.log("calling db")
+                  db.query();
 
                     var url = 'https://api.twinword.com/api/v5/topic/generate/';
                     var headers = { 
@@ -57,8 +62,7 @@ app.post('/', function(req, res) {
                         reply.text = "Your link " + query.text + " has been bookmarked "+ query.user_name;
                         res.json(reply);
                     });
-                  
-                  
+  
                 }
               });
         } else {
