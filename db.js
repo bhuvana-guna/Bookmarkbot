@@ -15,7 +15,7 @@ module.exports = {
     },
 
     addLink : function(url, channel, user) {
-        pool.query( createLink, [url, channel, user], (err, res) => {
+        pool.query(CONSTANTS.CREATE_LINK, [url, channel, user], (err, res) => {
             if (err) {
                 console.log(err.stack)
               } else {
