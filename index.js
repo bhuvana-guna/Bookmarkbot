@@ -46,26 +46,34 @@ app.post('/', function(req, res) {
                     }
                     console.log(webpage);
 
-                    let titleKeywords = webpage.split(" ");
+                    let titleKeywords = webpageTitle.split(" ");
 
-                    var url = 'https://api.twinword.com/api/v5/topic/generate/';
-                    var headers = { 
-                        'X-Twaip-Key': process.env.TWINWORD_API_KEY,
-                        'Content-Type' : 'application/x-www-form-urlencoded' 
-                    };
-                    var form = { text: metaDescription};
-
-                    request.post({ url: url, form: form, headers: headers }, function (e, r, body) {
-                        // your callback body
-                        //console.log(e);
-                        console.log(body)
-                        console.log("calling db")
+                    if(!metaDescription) {
+                        console.log("calling db without meta")
                         console.log(query.text, query.channel_id, query.user_id);
-                        db.addLink(query.text, query.channel_id, query.user_id,titleKeywords, body.keyword);
+                        db.addLink(query.text, query.channel_id, query.user_id,titleKeywords, {});
+                    } else {
+                        var url = 'https://api.twinword.com/api/v5/topic/generate/';
+                        var headers = { 
+                            'X-Twaip-Key': process.env.TWINWORD_API_KEY,
+                            'Content-Type' : 'application/x-www-form-urlencoded' 
+                        };
+                        var form = { text: metaDescription};
+    
+                        request.post({ url: url, form: form, headers: headers }, function (e, r, body) {
+                            // your callback body
+                            //console.log(e);
+                            console.log(body)
+                            console.log("calling db")
+                            console.log(query.text, query.channel_id, query.user_id);
+                            db.addLink(query.text, query.channel_id, query.user_id,titleKeywords, body.keyword);
+    
+                            reply.text = "Your link " + query.text + " has been bookmarked "+ query.user_name;
+                            res.json(reply);
+                        });
+                    }
 
-                        reply.text = "Your link " + query.text + " has been bookmarked "+ query.user_name;
-                        res.json(reply);
-                    });
+                    
   
                 }
               });
