@@ -13,7 +13,7 @@ const constants = {
     BOOKMARK_SLASH_TOKEN: process.env.BOOKMARK_SLASH_TOKEN,
     SEARCH_SLASH_TOKEN: process.env.SEARCH_SLASH_TOKEN,
     BOOKMARK: "/bookmark",
-    SEARCH: "/searchlink"
+    SEARCH: "/get"
 }
 
 app.use(timeout('30s'))
