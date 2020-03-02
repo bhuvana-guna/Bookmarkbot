@@ -56,13 +56,13 @@ module.exports = {
         kwstr = kwstr.slice(0, -1);
         kwstr = kwstr.slice(0, -1);
 
-        pool.query(CONSTANTS.SEARCH_LINK + kwstr + ")", (err, res) => {
+        pool.query(CONSTANTS.SEARCH_LINK + kwstr + ")", (err, response) => {
             if (err) {
                 console.log(err.stack)
                 res.json(reply);
             } else {
-                console.log(res.rows)
-                reply.text = "Here are the links - " + res.rows;
+                console.log(response.rows)
+                reply.text = "Here are the links - " + response.rows;
                 res.json(reply);
             }
         });
