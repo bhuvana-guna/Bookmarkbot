@@ -7,7 +7,8 @@ const pool = new Pool({
 
 const CONSTANTS = {
     CREATE_LINK : "INSERT INTO links(id, url, channel, userid) VALUES($1, $2, $3, $4) RETURNING *",
-    CREATE_KEYWORD_LINK: "INSERT INTO keyword_link(linkId, keyword) VALUES"
+    CREATE_KEYWORD_LINK: "INSERT INTO keyword_link(linkId, keyword) VALUES",
+    SEARCH_LINK: "select l.url from keyword_link kl join links l on kl.linkid = l.id and kl.keyword in "
 
 }
 module.exports = {
@@ -43,6 +44,28 @@ module.exports = {
                 });
               }
         })
+    },
+
+    searchLink : function(keywords, res, reply){
+
+        let kwstr = "('";
+        for(let i=0; i< keywords.length; i++){
+            kwstr = kwstr + keywords[i] + "','";
+        }
+
+        kwstr = kwstr.slice(0, -1);
+        kwstr = kwstr.slice(0, -1);
+
+        pool.query(CONSTANTS.SEARCH_LINK + kwstr + ")", (err, res) => {
+            if (err) {
+                console.log(err.stack)
+                res.json(reply);
+            } else {
+                console.log(res.rows)
+                reply.text = "Here are the links - " + res.rows;
+                res.json(reply);
+            }
+        });
     }
 }
 

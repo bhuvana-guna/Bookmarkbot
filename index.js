@@ -10,8 +10,10 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const constants = {
-    SLASH_TOKEN: process.env.SLASH_TOKEN,
-    BOOKMARK: "/bookmark"
+    BOOKMARK_SLASH_TOKEN: process.env.BOOKMARK_SLASH_TOKEN,
+    SEARCH_SLASH_TOKEN: process.env.SEARCH_SLASH_TOKEN,
+    BOOKMARK: "/bookmark",
+    SEARCH: "/searchLink"
 }
 
 app.use(timeout('30s'))
@@ -20,7 +22,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.post('/', function(req, res) {
     //console.log(req.body)
 
-    if(req.body.token == constants.SLASH_TOKEN){
+    if(req.body.token == constants.BOOKMARK_SLASH_TOKEN || req.body.token == constants.SEARCH_SLASH_TOKEN){
         let channelId = req.body.channel_id;
         let query = req.body;
         let reply = {
@@ -86,6 +88,17 @@ app.post('/', function(req, res) {
   
                 }
               });
+        } else if(req.body.command == constants.SEARCH) {
+            reply.token = query.token;
+            reply.team_id = query.team_id;
+            reply.channel_id = query.channel_id;
+            reply.channel_name = query.channel_name;
+            reply.timestamp = new Date(query.timestamp);
+            let keywords = query.text.split(",");
+            //db.searchLink(query.text, query.channel_id, query.user_id, keywords, res, reply);
+
+            db.searchLink(keywords, res, reply);
+
         } else {
             res.json(reply);
         }
