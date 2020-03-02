@@ -97,7 +97,7 @@ app.post('/', function(req, res) {
             let keywords = query.text.split(",");
             //db.searchLink(query.text, query.channel_id, query.user_id, keywords, res, reply);
 
-            db.searchLink(keywords, res, reply);
+            db.searchLink(query.text, keywords, res, reply);
 
         } else {
             res.json(reply);

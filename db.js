@@ -46,7 +46,7 @@ module.exports = {
         })
     },
 
-    searchLink : function(keywords, res, reply){
+    searchLink : function(text, keywords, res, reply){
 
         let kwstr = "('";
         for(let i=0; i< keywords.length; i++){
@@ -69,7 +69,7 @@ module.exports = {
                         map[e.url] = true;
                     }    
                 });
-                reply.text = "Here are the links - \n " + links;
+                reply.text = "Here are the links with " + text + " - \n " + links;
                 res.json(reply);
             }
         });
