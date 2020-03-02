@@ -35,8 +35,7 @@ app.post('/', function(req, res) {
             reply.channel_id = query.channel_id;
             reply.channel_name = query.channel_name;
             reply.timestamp = new Date(query.timestamp);
-            //reply.user_id = query.user_id;
-            //reply.user_name = "bookbot";
+            
             console.log("calling webpage : " + query.text);
             request(query.text, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
@@ -95,8 +94,7 @@ app.post('/', function(req, res) {
             reply.channel_id = query.channel_id;
             reply.channel_name = query.channel_name;
             reply.timestamp = new Date(query.timestamp);
-            let keywords = query.text.split(",");
-            //db.searchLink(query.text, query.channel_id, query.user_id, keywords, res, reply);
+            let keywords = query.text.replace(" ", ",").split(",");
 
             db.searchLink(query.text, keywords, res, reply);
 
