@@ -35,7 +35,7 @@ app.post('/', function(req, res) {
             reply.channel_id = query.channel_id;
             reply.channel_name = query.channel_name;
             reply.timestamp = new Date(query.timestamp);
-            
+
             console.log("calling webpage : " + query.text);
             request(query.text, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
@@ -55,8 +55,8 @@ app.post('/', function(req, res) {
 
                     if(!metaDescription) {
                         console.log("calling db without meta")
-                        console.log(query.text, query.channel_id, query.user_id);
-                        db.addLink(query.text, query.channel_id, query.user_id,titleKeywords);
+                        console.log(query.text,webpageTitle, query.channel_id, query.user_id);
+                        db.addLink(query.text, webpageTitle, query.channel_id, query.user_id,titleKeywords);
 
                         reply.text = "Your link " + query.text + " has been bookmarked "+ query.user_name+". \n\nYou can search using these keywords - "+ titleKeywords.reduce((str, e) => str+" #"+e + " ", str="");
                         res.json(reply);
@@ -76,8 +76,8 @@ app.post('/', function(req, res) {
                             keywords = keywords.filter( el => !titleKeywords.includes( el ) );
                             keywords = keywords.concat(titleKeywords);
                             console.log("calling db");
-                            console.log(query.text, query.channel_id, query.user_id);
-                            db.addLink(query.text, query.channel_id, query.user_id,keywords);
+                            console.log(query.text, webpageTitle, query.channel_id, query.user_id);
+                            db.addLink(query.text, webpageTitle, query.channel_id, query.user_id,keywords);
                             
                             reply.text = "Your link " + query.text + " has been bookmarked "+ query.user_name+". \n\nYou can search using these keywords - "+ keywords.reduce((str, e) => str+" #"+e + " ", str="");
                             res.json(reply);

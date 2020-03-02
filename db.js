@@ -6,9 +6,9 @@ const pool = new Pool({
 })
 
 const CONSTANTS = {
-    CREATE_LINK : "INSERT INTO links(id, url, channel, userid) VALUES($1, $2, $3, $4) RETURNING *",
+    CREATE_LINK : "INSERT INTO links(id, url, title, channel, userid) VALUES($1, $2, $3, $4, $5) RETURNING *",
     CREATE_KEYWORD_LINK: "INSERT INTO keyword_link(linkId, keyword) VALUES",
-    SEARCH_LINK: "select l.url from keyword_link kl join links l on kl.linkid = l.id and kl.keyword in "
+    SEARCH_LINK: "select l.url, l.title from keyword_link kl join links l on kl.linkid = l.id and kl.keyword in "
 
 }
 module.exports = {
@@ -18,8 +18,8 @@ module.exports = {
         })
     },
 
-    addLink : function(url, channel, user, keywords) {
-        pool.query(CONSTANTS.CREATE_LINK, [uuidv1(), url, channel, user], (err, res) => {
+    addLink : function(url, title, channel, user, keywords) {
+        pool.query(CONSTANTS.CREATE_LINK, [uuidv1(), url, title, channel, user], (err, res) => {
             if (err) {
                 console.log(err.stack)
               } else {
@@ -65,7 +65,7 @@ module.exports = {
                 let links = "", map= {};
                 response.rows.forEach(e => {
                     if(!map[e.url]){
-                        links = links + e.url + " \n";
+                        links = links + e.text + " - " + e.url + " \n";
                         map[e.url] = true;
                     }    
                 });
