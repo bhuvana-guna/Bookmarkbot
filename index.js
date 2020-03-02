@@ -59,7 +59,7 @@ app.post('/', function(req, res) {
                         console.log(query.text, query.channel_id, query.user_id);
                         db.addLink(query.text, query.channel_id, query.user_id,titleKeywords);
 
-                        reply.text = "Your link " + query.text + " has been bookmarked "+ query.user_name+". \n\n You can search using these keywords - "+ titleKeywords.reduce((str, e) => str+" #"+e + " ", str="");
+                        reply.text = "Your link " + query.text + " has been bookmarked "+ query.user_name+". \n\nYou can search using these keywords - "+ titleKeywords.reduce((str, e) => str+" #"+e + " ", str="");
                         res.json(reply);
                     } else {
                         var url = 'https://api.twinword.com/api/v5/topic/generate/';
@@ -70,19 +70,17 @@ app.post('/', function(req, res) {
                         var form = { text: metaDescription};
     
                         request.post({ url: url, form: form, headers: headers }, function (e, r, body) {
-                            // your callback body
-                            //console.log(e);
                             console.log(body)
                             body = JSON.parse(body)
                             console.log( body.keyword)
                             let keywords =  Object.keys(body.keyword);
                             keywords = keywords.filter( el => !titleKeywords.includes( el ) );
-                            keywords = keywords.concat(titleKeywords)
-                            console.log("calling db")
+                            keywords = keywords.concat(titleKeywords);
+                            console.log("calling db");
                             console.log(query.text, query.channel_id, query.user_id);
                             db.addLink(query.text, query.channel_id, query.user_id,keywords);
                             
-                            reply.text = "Your link " + query.text + " has been bookmarked "+ query.user_name+". \n\n You can search using these keywords - "+ keywords.reduce((str, e) => str+" #"+e + " ", str="");
+                            reply.text = "Your link " + query.text + " has been bookmarked "+ query.user_name+". \n\nYou can search using these keywords - "+ keywords.reduce((str, e) => str+" #"+e + " ", str="");
                             res.json(reply);
                         });
                     }

@@ -65,11 +65,11 @@ module.exports = {
                 let links = "", map= {};
                 response.rows.forEach(e => {
                     if(!map[e.url]){
-                        links = links + e.url + " \n ";
+                        links = links + e.url + " \n";
                         map[e.url] = true;
                     }    
                 });
-                reply.text = "Here are the links with " + text + " - \n " + links;
+                reply.text = "Here are the links with " + text + " - \n" + links;
                 res.json(reply);
             }
         });
