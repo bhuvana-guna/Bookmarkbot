@@ -50,7 +50,7 @@ module.exports = {
 
         let kwstr = "('";
         for(let i=0; i< keywords.length; i++){
-            kwstr = kwstr + keywords[i] + "','";
+            kwstr = kwstr + keywords[i].trim() + "','";
         }
 
         kwstr = kwstr.slice(0, -1);
