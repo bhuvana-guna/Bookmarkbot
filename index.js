@@ -13,14 +13,14 @@ const constants = {
     BOOKMARK_SLASH_TOKEN: process.env.BOOKMARK_SLASH_TOKEN,
     SEARCH_SLASH_TOKEN: process.env.SEARCH_SLASH_TOKEN,
     BOOKMARK: "/bookmark",
-    SEARCH: "/searchLink"
+    SEARCH: "/searchlink"
 }
 
 app.use(timeout('30s'))
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/', function(req, res) {
-    //console.log(req.body)
+    console.log(req.body)
 
     if(req.body.token == constants.BOOKMARK_SLASH_TOKEN || req.body.token == constants.SEARCH_SLASH_TOKEN){
         let channelId = req.body.channel_id;
