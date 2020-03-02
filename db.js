@@ -62,11 +62,14 @@ module.exports = {
                 res.json(reply);
             } else {
                 console.log(response.rows);
-                let links = "";
+                let links = "", map= {};
                 response.rows.forEach(e => {
-                    links = links + e.url + " \n ";
+                    if(!map[e.url]){
+                        links = links + e.url + " \n ";
+                        map[e.url] = true;
+                    }    
                 });
-                reply.text = "Here are the links - " + links;
+                reply.text = "Here are the links - \n " + links;
                 res.json(reply);
             }
         });
