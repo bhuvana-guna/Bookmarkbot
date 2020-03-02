@@ -65,7 +65,7 @@ module.exports = {
                 let links = "", map= {};
                 response.rows.forEach(e => {
                     if(!map[e.url]){
-                        links = links + e.text + " - " + e.url + " \n";
+                        links = links + e.title + " - " + e.url + " \n";
                         map[e.url] = true;
                     }    
                 });
