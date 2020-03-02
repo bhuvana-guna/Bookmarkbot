@@ -58,6 +58,9 @@ app.post('/', function(req, res) {
                         console.log("calling db without meta")
                         console.log(query.text, query.channel_id, query.user_id);
                         db.addLink(query.text, query.channel_id, query.user_id,titleKeywords);
+
+                        reply.text = "Your link " + query.text + " has been bookmarked "+ query.user_name+". \n\n You can search using these keywords - "+ titleKeywords.reduce((str, e) => str+" #"+e + " ", str="");
+                        res.json(reply);
                     } else {
                         var url = 'https://api.twinword.com/api/v5/topic/generate/';
                         var headers = { 
@@ -79,7 +82,7 @@ app.post('/', function(req, res) {
                             console.log(query.text, query.channel_id, query.user_id);
                             db.addLink(query.text, query.channel_id, query.user_id,keywords);
                             
-                            reply.text = "Your link " + query.text + " has been bookmarked "+ query.user_name+". You can search using these keywords - "+ keywords.reduce((str, e) => str+" #"+e, str="");
+                            reply.text = "Your link " + query.text + " has been bookmarked "+ query.user_name+". \n\n You can search using these keywords - "+ keywords.reduce((str, e) => str+" #"+e + " ", str="");
                             res.json(reply);
                         });
                     }
