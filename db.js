@@ -61,8 +61,12 @@ module.exports = {
                 console.log(err.stack)
                 res.json(reply);
             } else {
-                console.log(response.rows)
-                reply.text = "Here are the links - " + response.rows;
+                console.log(response.rows);
+                let links = "";
+                response.rows.forEach(e => {
+                    links = links + e.url;
+                });
+                reply.text = "Here are the links - " + links;
                 res.json(reply);
             }
         });
