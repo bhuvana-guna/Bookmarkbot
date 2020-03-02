@@ -64,7 +64,7 @@ module.exports = {
                 console.log(response.rows);
                 let links = "";
                 response.rows.forEach(e => {
-                    links = links + e.url;
+                    links = links + e.url + " \n ";
                 });
                 reply.text = "Here are the links - " + links;
                 res.json(reply);
